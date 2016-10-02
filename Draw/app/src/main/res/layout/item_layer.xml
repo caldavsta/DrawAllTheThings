@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="2dp"
+              android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="49dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/layerview_togglevisible"
+            android:textSize="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_layer_visible"/>
+
+        <Button
+            android:id="@+id/layerView_toggleediting"
+            android:textSize="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_layer_editing"/>
+
+        <Button
+            android:background="@drawable/ic_layer_moveup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layerView_moveup"/>
+        
+        <Button
+            android:background="@drawable/ic_layer_movedown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layerView_movedown"/>
+
+    </LinearLayout>
+
+    <com.onagainapps.sketchallthethings.LayerView
+        android:id="@+id/layerview_layerView"
+        class="com.onagainapps.sketchallthethings.LayerView"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"/>
+</LinearLayout>
