@@ -53,7 +53,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		setContentView(R.layout.activity_drawing);
-		
+		 
 		drawingView = (DrawingView) findViewById(R.id.drawing_canvas);
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
