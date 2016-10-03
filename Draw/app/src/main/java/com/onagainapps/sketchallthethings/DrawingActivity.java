@@ -4,36 +4,46 @@ package com.onagainapps.sketchallthethings;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.OpacityBar;
+import com.larswerkman.holocolorpicker.SVBar;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 import com.onagainapps.sketchallthethings.DrawingManager.Drawing;
 import com.onagainapps.sketchallthethings.DrawingManager.LayerArrayAdapter;
+import com.onagainapps.sketchallthethings.Tools.ToolArrayAdapter;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 
-public class DrawingActivity extends AppCompatActivity {
+public class DrawingActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 	private static final String TAG = DrawingActivity.class.getSimpleName();
 	
-	private BrushSettingsFragment brushSettingsFragment;
 	
 	public DrawingView drawingView;
 	
 	private ListView layerListView;
 	private DrawerLayout drawerLayout;
-	private ListView toolListView;
+	private ExpandableListView toolListView;
 	
-	LayerArrayAdapter adapter;
+	
+	private ColorPicker colorPicker;
+	
+	
+	LayerArrayAdapter layerArrayAdapter;
+	ToolArrayAdapter toolArrayAdapter;
 	
 	
 	int mStackLevel = 0;
@@ -47,6 +57,16 @@ public class DrawingActivity extends AppCompatActivity {
 		drawingView = (DrawingView) findViewById(R.id.drawing_canvas);
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		drawerLayout.addDrawerListener(this);
+		drawerLayout.setOnDragListener(new View.OnDragListener() {
+			@Override
+			public boolean onDrag(View v, DragEvent event) {
+				return true;
+			}
+		});
+		
+
+		
 		
 		//Layer Drawer
 		layerListView = (ListView) findViewById(R.id.layer_drawer);
@@ -56,12 +76,42 @@ public class DrawingActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View v) {
 				drawingView.getCurrentDrawing().createNewLayer();
-				adapter.notifyDataSetChanged();
+				layerArrayAdapter.notifyDataSetChanged();
 			}
 		});
 		
 		//Tool Drawer
-		toolListView = (ListView) findViewById(R.id.tool_drawer);
+		toolListView = (ExpandableListView) findViewById(R.id.toolbelt_listview);
+		toolArrayAdapter = new ToolArrayAdapter(this, SketchAllTheThings.getInstance().getTools());
+		toolListView.setAdapter(toolArrayAdapter);
+		
+		toolListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+				Log.d("caleb " + TAG,"Got that!");
+				toolListView.expandGroup(groupPosition);
+				return true;
+			}
+		});
+		
+		colorPicker = (ColorPicker) findViewById(R.id.color_picker);
+		SVBar svBar = (SVBar) findViewById(R.id.color_svbar);
+		OpacityBar opacityBar = (OpacityBar) findViewById(R.id.color_opacitybar);
+		SaturationBar saturationBar = (SaturationBar) findViewById(R.id.color_saturationbar);
+		ValueBar valueBar = (ValueBar) findViewById(R.id.color_valuebar);
+		
+		colorPicker.addSVBar(svBar);
+		colorPicker.addOpacityBar(opacityBar);
+		colorPicker.addSaturationBar(saturationBar);
+		colorPicker.addValueBar(valueBar);
+		
+		colorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
+			@Override
+			public void onColorChanged(int color) {
+				SketchAllTheThings.getInstance().setCurrentColor(color);
+			}
+		});
+		
 	}
 	
 	
@@ -85,7 +135,7 @@ public class DrawingActivity extends AppCompatActivity {
 				break;
 			
 			case R.id.action_brush_settings:
-				showDialog();
+				
 				break;
 			
 			case R.id.action_share_image:
@@ -96,15 +146,15 @@ public class DrawingActivity extends AppCompatActivity {
 				Drawing drawing = Drawing.getNewDefaultDrawing(drawingView);
 				drawingView.setCurrentDrawing(drawing);
 				setupLayerAdapter();
-				adapter.setDrawing(drawing);
+				layerArrayAdapter.setDrawing(drawing);
 				break;
 			
 			case R.id.action_watch:
-				if (SketchAllTheThings.getInstance().getCurrentTool() == SketchAllTheThings.Tool.BRUSH){
-					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.Tool.CANVAS);
+				if (SketchAllTheThings.getInstance().getCurrentTool() == SketchAllTheThings.ToolType.BRUSH){
+					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.ToolType.CANVAS);
 				} else {
 					
-					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.Tool.BRUSH);
+					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.ToolType.BRUSH);
 				}
 				
 				
@@ -119,10 +169,11 @@ public class DrawingActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	
 	public void setupLayerAdapter(){
-		adapter = drawingView.getCurrentDrawing().getLayerArrayAdapterForLayerList(this, drawingView);
-		layerListView.setAdapter(adapter);
-		adapter.setDrawing(drawingView.getCurrentDrawing());
+		layerArrayAdapter = drawingView.getCurrentDrawing().getLayerArrayAdapterForLayerList(this, drawingView);
+		layerListView.setAdapter(layerArrayAdapter);
+		layerArrayAdapter.setDrawing(drawingView.getCurrentDrawing());
 	}
 	
 	private void shareBitmap(Bitmap bitmap, String fileName) {
@@ -144,24 +195,29 @@ public class DrawingActivity extends AppCompatActivity {
 		
 	}
 	
-	void showDialog() {
-		mStackLevel++;
+	
+	
+	@Override
+	public void onDrawerSlide(View drawerView, float slideOffset) {
 		
-		// DialogFragment.show() will take care of adding the fragment
-		// in a transaction.  We also want to remove any currently showing
-		// dialog, so make our own transaction and take care of that here.
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
-		if (prev != null) {
-			ft.remove(prev);
-		}
-		ft.addToBackStack(null);
-		
-		// Create and show the dialog
-		if (brushSettingsFragment == null) {
-			brushSettingsFragment = BrushSettingsFragment.newInstance();
-		}
-		brushSettingsFragment.show(ft, "dialog");
 	}
 	
+	@Override
+	public void onDrawerOpened(View drawerView) {
+		drawerView.bringToFront();
+		
+		Log.d("caleb " + TAG,"Drawer Opened");
+	}
+	
+	@Override
+	public void onDrawerClosed(View drawerView) {
+		
+		colorPicker.setOldCenterColor(SketchAllTheThings.getInstance().getColor());
+		colorPicker.postInvalidate();
+	}
+
+	@Override
+	public void onDrawerStateChanged(int newState) {
+		
+	}
 }

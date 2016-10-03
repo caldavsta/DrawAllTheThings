@@ -9,6 +9,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.onagainapps.sketchallthethings.SketchAllTheThings;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,9 @@ public class BrushStroke extends Command {
 		path = new Path();
 		path.moveTo(firstPoint.x, firstPoint.y);
 		addPointToLine(firstPoint);
+		
+		brushColor = SketchAllTheThings.getInstance().getColor();
+		brushSize = SketchAllTheThings.getInstance().getPaintBrush().getBrushSize();
 		
 		paint = new Paint();
 		setupPaint();

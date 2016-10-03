@@ -1,15 +1,12 @@
 package com.onagainapps.sketchallthethings.DrawingManager;
 
 import android.graphics.Point;
-import android.support.v4.view.MotionEventCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.onagainapps.sketchallthethings.DrawingView;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
-
-import static android.R.attr.factor;
 
 /**
  * Created by Caleb on 9/24/2016.
@@ -26,7 +23,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 	//Drawing stuff
 	private DrawingView drawingView;
 	
-	//Canvas Tool stuff
+	//Canvas ToolType stuff
 	private float lastFrameX;
 	private float lastFrameY;
 	private float lastFrameDistance;
@@ -43,14 +40,14 @@ public class DrawingInputManager implements View.OnTouchListener {
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		
-		//Log.d("caleb " + TAG,"Tool: " + SketchAllTheThings.getInstance().getCurrentTool() + " Event: " + actionToString(MotionEventCompat.getActionMasked(event)));
+		//Log.d("caleb " + TAG,"ToolType: " + SketchAllTheThings.getInstance().getCurrentTool() + " Event: " + actionToString(MotionEventCompat.getActionMasked(event)));
 		
 		boolean result = false;
 		switch (SketchAllTheThings.getInstance().getCurrentTool()){
-			case SketchAllTheThings.Tool.BRUSH:
+			case SketchAllTheThings.ToolType.BRUSH:
 				result = handleBrushInput(v, event);
 				break;
-			case SketchAllTheThings.Tool.CANVAS:
+			case SketchAllTheThings.ToolType.CANVAS:
 				result = handleCanvasInput(v, event);
 				break;
 		}
@@ -144,8 +141,6 @@ public class DrawingInputManager implements View.OnTouchListener {
 						
 						//create brushstroke
 						BrushStroke commandAsBrushStroke = (BrushStroke) newCommand;
-						commandAsBrushStroke.setBrushColor(SketchAllTheThings.getInstance().getColor());
-						commandAsBrushStroke.setBrushSize(SketchAllTheThings.getInstance().getCurrentBrushSize());
 						commandAsBrushStroke.addPointToLine(point);
 						
 						//inform drawingview that command has started

@@ -68,8 +68,8 @@ public class Drawing {
 				layerList.get(i).onDraw(canvas, paint);
 				if (layerList.get(i) == getLayerBeingEdited()){
 					if (currentCommand != null) {
-						currentCommand.draw(currentCommandCanvas);
-						canvas.drawBitmap(currentCommandBitmap, 0,0, paint);
+						currentCommand.draw(canvas);
+						//canvas.drawBitmap(currentCommandBitmap, 0,0, paint);
 					}
 				}
 			}
@@ -121,7 +121,7 @@ public class Drawing {
 		getLayerBeingEdited().addCommandAndDrawToBitmap(currentCommand);
 		getLayerBeingEdited().clearRedoStack();
 		currentCommand = null;
-		currentCommandBitmap.eraseColor(Color.TRANSPARENT);
+		//currentCommandBitmap.eraseColor(Color.TRANSPARENT);
 		drawingView.postInvalidate();
 	}
 	

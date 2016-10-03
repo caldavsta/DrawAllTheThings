@@ -5,9 +5,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
-import com.onagainapps.sketchallthethings.DrawingManager.Command;
+import com.onagainapps.sketchallthethings.Tools.PaintBrush;
+import com.onagainapps.sketchallthethings.Tools.Tool;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 /**
  * Created by Caleb on 9/24/2016.
@@ -15,11 +16,13 @@ import java.util.Stack;
 public class SketchAllTheThings {
 private static final String TAG = SketchAllTheThings.class.getSimpleName();
 
-	public static class Tool {
+	public static class ToolType {//LEGACY
 		public static final int BRUSH = 0;
 		public static final int CANVAS = 1;
 	}
 	
+	
+	private PaintBrush paintBrush;
 
     private static SketchAllTheThings instance = null;
 
@@ -32,35 +35,37 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	
 
 	//defaults
-	private final int DEFAULT_COLOR = Color.BLACK;
-	private final int DEFAULT_BRUSH_SIZE = 12;
-	public final int MAX_BRUSH_SIZE = 100;
+
 	public final int DEFAULT_BACKGROUND_COLOR = Color.TRANSPARENT;
 	public final Bitmap.Config DEFAULT_BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
 
 	//current settings
 	private int currentTool;
 	private int currentColor;
-	private int currentBrushSize;
 	
 	private Paint canvasBorderPaint;
+	
+	private ArrayList<Tool> tools;
 
 
 	public SketchAllTheThings(){
-		currentTool = Tool.CANVAS;
-		currentColor = DEFAULT_COLOR;
-        currentBrushSize = DEFAULT_BRUSH_SIZE;
+		currentTool = ToolType.CANVAS;
 		
 		canvasBorderPaint = new Paint();
 		canvasBorderPaint.setColor(Color.BLACK);
 		canvasBorderPaint.setStyle(Paint.Style.STROKE);
 		canvasBorderPaint.setStrokeWidth(2.0f);
-
-
+		
+		
+		setupTools();
 	}
-
 	
-
+	private void setupTools(){
+		this.tools = new ArrayList<>();
+		paintBrush = new PaintBrush();
+		tools.add(0, paintBrush);
+	}
+	
 	public void setCurrentColor(int color){
 		Log.d("caleb " + TAG, "Color set: " + color);
 		currentColor = color;
@@ -68,13 +73,6 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 
 	public int getColor(){
 		return currentColor;
-	}
-	public int getCurrentBrushSize() {
-		return currentBrushSize;
-	}
-
-	public void setCurrentBrushSize(int currentBrushSize) {
-		this.currentBrushSize = currentBrushSize;
 	}
 	
 	public int getCurrentTool() {
@@ -87,5 +85,11 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	
 	public Paint getCanvasBorderPaint() {
 		return canvasBorderPaint;
+	}
+	
+	public PaintBrush getPaintBrush () { return paintBrush; }
+	
+	public ArrayList<Tool> getTools() {
+		return tools;
 	}
 }
