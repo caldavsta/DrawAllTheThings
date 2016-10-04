@@ -77,6 +77,10 @@ public class ToolArrayAdapter extends BaseExpandableListAdapter {
 				PaintBrush paintBrush = (PaintBrush) toolArrayList.get(groupPosition);
 				result = paintBrush.getPaintBrushDrawer().processView(convertView, drawingActivity, parent);
 				break;
+			case Tool.ERASER:
+				Eraser eraser = (Eraser) toolArrayList.get(groupPosition);
+				result = eraser.getEraserDrawer().processView(convertView, drawingActivity, parent);
+				break;
 			default:
 				Log.d("caleb " + TAG,"This is a big problem!");
 				break;

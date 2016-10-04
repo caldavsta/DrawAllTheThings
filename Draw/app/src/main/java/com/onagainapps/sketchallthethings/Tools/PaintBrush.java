@@ -14,13 +14,11 @@ import com.onagainapps.sketchallthethings.R;
  */
 
 public class PaintBrush extends Tool {
-	private static final int DEFAULT_COLOR = Color.BLACK;
 	private static final int DEFAULT_BRUSH_SIZE = 12;
 	public static final int MAX_BRUSH_SIZE = 100;
 	public static final int MIN_BRUSH_SIZE = 3;
 	
 	private int brushSize;
-	private int color;
 	private PaintBrushDrawer paintBrushDrawer;
 	
 	
@@ -29,20 +27,12 @@ public class PaintBrush extends Tool {
 		super.displayName = "Paint Brush";
 		
 		brushSize = DEFAULT_BRUSH_SIZE;
-		color = DEFAULT_COLOR;
 		
 		
 		paintBrushDrawer = new PaintBrushDrawer(this);
 	}
 	
 	
-	public int getColor() {
-		return color;
-	}
-	
-	public void setColor(int color) {
-		this.color = color;
-	}
 	
 	public int getBrushSize() {
 		return brushSize;

@@ -66,7 +66,7 @@ public class BrushStroke extends Command {
 		result.left = (int) rect.left;
 		result.top = (int) rect.top;
 		result.right = (int) rect.right;
-		result.bottom = (int) rect.bottom;		
+		result.bottom = (int) rect.bottom;
 		
 		return result;
 	}

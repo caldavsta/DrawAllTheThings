@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 
+import com.onagainapps.sketchallthethings.Tools.Eraser;
 import com.onagainapps.sketchallthethings.Tools.PaintBrush;
 import com.onagainapps.sketchallthethings.Tools.Tool;
 
@@ -23,6 +24,7 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	
 	
 	private PaintBrush paintBrush;
+	private Eraser eraser;
 
     private static SketchAllTheThings instance = null;
 
@@ -51,6 +53,7 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	public SketchAllTheThings(){
 		currentTool = ToolType.CANVAS;
 		
+		//setup the Paint that draws the border around the drawing
 		canvasBorderPaint = new Paint();
 		canvasBorderPaint.setColor(Color.BLACK);
 		canvasBorderPaint.setStyle(Paint.Style.STROKE);
@@ -62,8 +65,15 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	
 	private void setupTools(){
 		this.tools = new ArrayList<>();
+		
+		//create the tools
 		paintBrush = new PaintBrush();
+		eraser = new Eraser();
+		
+		//add tools to belt
 		tools.add(0, paintBrush);
+		tools.add(1, eraser);
+		
 	}
 	
 	public void setCurrentColor(int color){

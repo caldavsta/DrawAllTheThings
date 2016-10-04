@@ -15,10 +15,7 @@ import com.onagainapps.sketchallthethings.R;
  */
 
 public class PaintBrushDrawer implements SeekBar.OnSeekBarChangeListener{
-	SeekBar sizeSeekBar;
 	PaintBrush paintBrush;
-	
-
 	
 	private static class PaintBrushDrawerHolder {
 		SeekBar brushSizeSeekBar;
@@ -26,7 +23,6 @@ public class PaintBrushDrawer implements SeekBar.OnSeekBarChangeListener{
 	
 	public PaintBrushDrawer(PaintBrush paintBrush){
 		this.paintBrush = paintBrush;
-		
 	}
 	
 	public View processView(View convertView, Context context, final ViewGroup parent){

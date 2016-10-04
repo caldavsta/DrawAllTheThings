@@ -15,6 +15,7 @@ import java.util.Dictionary;
 public abstract class Tool{
 	
 	public static final int PAINT_BRUSH = 0;
+	public static final int ERASER = 1;
 	
 	private Command commandWhileDrawing;
 	private Command commandAfterDrawn;
