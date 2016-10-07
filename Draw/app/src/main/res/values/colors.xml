@@ -7,4 +7,5 @@
     <color name="colorDrawingCanvasBackground">#787878</color>
 
     <color name="layerListCurrentLayerBackground">#fab</color>
+    <color name="actionBarDivider">#000000</color>
 </resources>

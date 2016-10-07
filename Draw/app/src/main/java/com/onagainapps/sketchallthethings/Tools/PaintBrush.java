@@ -3,6 +3,7 @@ package com.onagainapps.sketchallthethings.Tools;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class PaintBrush extends Tool {
 	private static final int DEFAULT_BRUSH_SIZE = 12;
 	public static final int MAX_BRUSH_SIZE = 100;
 	public static final int MIN_BRUSH_SIZE = 3;
+	public static int icon = R.drawable.ic_tool_eraser;
 	
 	private int brushSize;
 	private PaintBrushDrawer paintBrushDrawer;
@@ -27,7 +29,6 @@ public class PaintBrush extends Tool {
 		super.displayName = "Paint Brush";
 		
 		brushSize = DEFAULT_BRUSH_SIZE;
-		
 		
 		paintBrushDrawer = new PaintBrushDrawer(this);
 	}
@@ -49,5 +50,10 @@ public class PaintBrush extends Tool {
 	@Override
 	public int getToolType() {
 		return Tool.PAINT_BRUSH;
+	}
+	
+	@Override
+	public int getIconDrawable() {
+		return R.drawable.ic_tool_paintbrush;
 	}
 }

@@ -16,12 +16,8 @@ import java.util.ArrayList;
  */
 public class SketchAllTheThings {
 private static final String TAG = SketchAllTheThings.class.getSimpleName();
-
-	public static class ToolType {//LEGACY
-		public static final int BRUSH = 0;
-		public static final int CANVAS = 1;
-	}
 	
+	private static final int DEFAULT_COLOR = Color.BLACK;
 	
 	private PaintBrush paintBrush;
 	private Eraser eraser;
@@ -42,7 +38,7 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	public final Bitmap.Config DEFAULT_BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
 
 	//current settings
-	private int currentTool;
+	private Tool currentTool;
 	private int currentColor;
 	
 	private Paint canvasBorderPaint;
@@ -51,7 +47,6 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 
 
 	public SketchAllTheThings(){
-		currentTool = ToolType.CANVAS;
 		
 		//setup the Paint that draws the border around the drawing
 		canvasBorderPaint = new Paint();
@@ -59,8 +54,10 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 		canvasBorderPaint.setStyle(Paint.Style.STROKE);
 		canvasBorderPaint.setStrokeWidth(2.0f);
 		
+		setCurrentColor(DEFAULT_COLOR);
 		
 		setupTools();
+		setCurrentTool(paintBrush);
 	}
 	
 	private void setupTools(){
@@ -85,11 +82,11 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 		return currentColor;
 	}
 	
-	public int getCurrentTool() {
+	public Tool getCurrentTool() {
 		return currentTool;
 	}
 	
-	public void setCurrentTool(int currentTool) {
+	public void setCurrentTool(Tool currentTool) {
 		this.currentTool = currentTool;
 	}
 	

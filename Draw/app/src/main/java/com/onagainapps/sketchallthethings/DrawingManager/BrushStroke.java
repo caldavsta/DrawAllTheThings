@@ -38,8 +38,7 @@ public class BrushStroke extends Command {
 		path.moveTo(firstPoint.x, firstPoint.y);
 		addPointToLine(firstPoint);
 		
-		brushColor = SketchAllTheThings.getInstance().getColor();
-		brushSize = SketchAllTheThings.getInstance().getPaintBrush().getBrushSize();
+
 		
 		paint = new Paint();
 		setupPaint();

@@ -14,14 +14,16 @@ import java.util.Dictionary;
 
 public abstract class Tool{
 	
+	public static final int TOOL_PREFIX = 91293199;
+	
 	public static final int PAINT_BRUSH = 0;
 	public static final int ERASER = 1;
+	public static final int ZOOM_AND_PAN = 1;
 	
 	private Command commandWhileDrawing;
 	private Command commandAfterDrawn;
 	protected String displayName;
 	protected int resource;
-	
 	
 	public Command getCommandWhileDrawing() {
 		return commandWhileDrawing;
@@ -41,4 +43,7 @@ public abstract class Tool{
 	
 	public abstract int getToolType();
 	
+	public abstract int getIconDrawable();
+	
+
 }

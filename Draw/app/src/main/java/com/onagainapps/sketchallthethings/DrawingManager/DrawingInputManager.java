@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.onagainapps.sketchallthethings.DrawingView;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
+import com.onagainapps.sketchallthethings.Tools.PaintBrush;
+import com.onagainapps.sketchallthethings.Tools.Tool;
 
 /**
  * Created by Caleb on 9/24/2016.
@@ -43,11 +45,11 @@ public class DrawingInputManager implements View.OnTouchListener {
 		//Log.d("caleb " + TAG,"ToolType: " + SketchAllTheThings.getInstance().getCurrentTool() + " Event: " + actionToString(MotionEventCompat.getActionMasked(event)));
 		
 		boolean result = false;
-		switch (SketchAllTheThings.getInstance().getCurrentTool()){
-			case SketchAllTheThings.ToolType.BRUSH:
-				result = handleBrushInput(v, event);
+		switch (SketchAllTheThings.getInstance().getCurrentTool().getToolType()){
+			case Tool.PAINT_BRUSH:
+				result = handleDrawingToolInput(v, event);
 				break;
-			case SketchAllTheThings.ToolType.CANVAS:
+			case Tool.ZOOM_AND_PAN:
 				result = handleCanvasInput(v, event);
 				break;
 		}
@@ -111,7 +113,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 		return true;
 	}
 	
-	private boolean handleBrushInput(View v, MotionEvent event){
+	private boolean handleDrawingToolInput(View v, MotionEvent event){
 		switch (event.getAction()) {
 			
 			case MotionEvent.ACTION_DOWN:
@@ -141,6 +143,8 @@ public class DrawingInputManager implements View.OnTouchListener {
 						
 						//create brushstroke
 						BrushStroke commandAsBrushStroke = (BrushStroke) newCommand;
+						commandAsBrushStroke.setBrushColor(SketchAllTheThings.getInstance().getColor());
+						commandAsBrushStroke.setBrushSize(SketchAllTheThings.getInstance().getPaintBrush().getBrushSize());
 						commandAsBrushStroke.addPointToLine(point);
 						
 						//inform drawingview that command has started

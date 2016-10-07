@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
@@ -23,6 +25,7 @@ import com.larswerkman.holocolorpicker.SaturationBar;
 import com.larswerkman.holocolorpicker.ValueBar;
 import com.onagainapps.sketchallthethings.DrawingManager.Drawing;
 import com.onagainapps.sketchallthethings.DrawingManager.LayerArrayAdapter;
+import com.onagainapps.sketchallthethings.Tools.Tool;
 import com.onagainapps.sketchallthethings.Tools.ToolArrayAdapter;
 
 import java.io.File;
@@ -38,6 +41,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 	private DrawerLayout drawerLayout;
 	private ExpandableListView toolListView;
 	
+	private ActionBar actionBar;
 	
 	private ColorPicker colorPicker;
 	
@@ -65,9 +69,6 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 			}
 		});
 		
-
-		
-		
 		//Layer Drawer
 		layerListView = (ListView) findViewById(R.id.layer_drawer);
 		
@@ -94,6 +95,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 			}
 		});
 		
+		//Tool Drawer Color Picker
 		colorPicker = (ColorPicker) findViewById(R.id.color_picker);
 		SVBar svBar = (SVBar) findViewById(R.id.color_svbar);
 		OpacityBar opacityBar = (OpacityBar) findViewById(R.id.color_opacitybar);
@@ -104,6 +106,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		colorPicker.addOpacityBar(opacityBar);
 		colorPicker.addSaturationBar(saturationBar);
 		colorPicker.addValueBar(valueBar);
+		colorPicker.setColor(SketchAllTheThings.getInstance().getColor());
 		
 		colorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
 			@Override
@@ -112,12 +115,36 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 			}
 		});
 		
+		
 	}
 	
-	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		int count = menu.size();
+		for (final Tool thisTool : SketchAllTheThings.getInstance().getTools()){
+			int thisToolId = Tool.TOOL_PREFIX  + thisTool.getToolType();
+			MenuItem thisMenuItem = menu.add(5,thisToolId, count, thisTool.getDisplayName());
+			thisMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			thisMenuItem.setIcon(thisTool.getIconDrawable());
+			thisMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					SketchAllTheThings.getInstance().setCurrentTool(thisTool);
+					Toast.makeText(getBaseContext(), thisTool.getDisplayName() + " selected.", Toast.LENGTH_SHORT);
+					return true;
+				}
+			});
+			count++;
+		}
+		
+		
 		getMenuInflater().inflate(R.menu.menu_drawingcanvas, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -134,10 +161,6 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 				drawingView.getCurrentDrawing().redo();
 				break;
 			
-			case R.id.action_brush_settings:
-				
-				break;
-			
 			case R.id.action_share_image:
 				shareBitmap(drawingView.getCurrentDrawing().getDrawingAsBitmap(), "MyFile");
 				break;
@@ -149,26 +172,15 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 				layerArrayAdapter.setDrawing(drawing);
 				break;
 			
-			case R.id.action_watch:
-				if (SketchAllTheThings.getInstance().getCurrentTool() == SketchAllTheThings.ToolType.BRUSH){
-					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.ToolType.CANVAS);
-				} else {
-					
-					SketchAllTheThings.getInstance().setCurrentTool(SketchAllTheThings.ToolType.BRUSH);
-				}
+			default:
 				
 				
 				
-				
-				//SketchAllTheThings.getInstance().tempCommandStack = drawingView.getDrawingInputManager().getCommandList();
-				//Intent i = new Intent(this, WatchingActivity.class);
-				//startActivity(i);
 				break;
-			
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
 	
 	public void setupLayerAdapter(){
 		layerArrayAdapter = drawingView.getCurrentDrawing().getLayerArrayAdapterForLayerList(this, drawingView);
@@ -195,8 +207,6 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		
 	}
 	
-	
-	
 	@Override
 	public void onDrawerSlide(View drawerView, float slideOffset) {
 		
@@ -211,7 +221,6 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 	
 	@Override
 	public void onDrawerClosed(View drawerView) {
-		
 		colorPicker.setOldCenterColor(SketchAllTheThings.getInstance().getColor());
 		colorPicker.postInvalidate();
 	}

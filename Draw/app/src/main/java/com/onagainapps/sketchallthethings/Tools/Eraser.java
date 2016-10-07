@@ -42,4 +42,9 @@ public class Eraser extends Tool {
 	public int getToolType() {
 		return Tool.ERASER;
 	}
+	
+	@Override
+	public int getIconDrawable() {
+		return R.drawable.ic_tool_eraser;
+	}
 }
