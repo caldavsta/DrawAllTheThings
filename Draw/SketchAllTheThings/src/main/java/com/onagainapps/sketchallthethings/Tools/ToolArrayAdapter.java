@@ -45,8 +45,6 @@ public class ToolArrayAdapter extends BaseExpandableListAdapter {
 		
 	}
 	
-	
-	
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		final GroupViewHolder groupViewHolder;
@@ -57,14 +55,12 @@ public class ToolArrayAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.tool_group_view, parent, false);
 			
 			groupViewHolder.titleTextView = (TextView) convertView.findViewById(R.id.tool_groupTextView);
-			
 			convertView.setTag(groupViewHolder);
 		} else {
 			groupViewHolder = (GroupViewHolder) convertView.getTag();
 		}
 		
 		groupViewHolder.titleTextView.setText(toolArrayList.get(groupPosition).getDisplayName());
-		
 		return convertView;
 	}
 	

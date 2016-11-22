@@ -123,11 +123,12 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		toolListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 			@Override
 			public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-				Log.d("caleb " + TAG,"Got that!");
+				//Log.d("caleb " + TAG,"Got that!");
 				toolListView.expandGroup(groupPosition);
 				return true;
 			}
 		});
+		toolListView.expandGroup(0);
 		
 		//Setup tool drawer's color picker
 		colorPicker = (ColorPicker) findViewById(R.id.color_picker);

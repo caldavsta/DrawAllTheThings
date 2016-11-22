@@ -124,8 +124,27 @@ public class DrawingView extends View {
 		canvas.drawPaint(paint);
 		
 		paint.setColor(Color.BLACK);
-		paint.setTextSize(40);
-		canvas.drawText("Menu -> New Drawing", canvas.getWidth()/4, canvas.getHeight()/2, paint);
+		int TEXT_SIZE = 40;
+		int TEXT_SPACING = 2;
+		int PARAGRAPH_SPACING = 30;
+		int LINE_WRAP_INDENT = 20;
+		float y = canvas.getHeight()/8;
+		float x = 25;
+		paint.setTextSize(TEXT_SIZE);
+		canvas.drawText("• To begin: Menu -> New Drawing", x, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING + PARAGRAPH_SPACING;
+		canvas.drawText("• Swipe from left edge of screen to ", x, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING;
+		canvas.drawText("change color and see tools", x + LINE_WRAP_INDENT, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING + PARAGRAPH_SPACING;
+		canvas.drawText("• Swipe from right edge of screen to", x, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING;
+		canvas.drawText("see layers", x + LINE_WRAP_INDENT, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING + PARAGRAPH_SPACING;
+		canvas.drawText("• To delete a layer, long press\n", x, y , paint);
+		y+=TEXT_SIZE + TEXT_SPACING + PARAGRAPH_SPACING;
+		canvas.drawText("• To edit a layer, press the pencil icon", x, y , paint);
+
 	}
 	
 	/**
