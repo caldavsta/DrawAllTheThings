@@ -50,7 +50,6 @@ public class ToolArrayAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 		final GroupViewHolder groupViewHolder;
-		Log.d("caleb " + TAG,"Getting there!");
 		if (convertView == null){
 			groupViewHolder = new GroupViewHolder();
 			
@@ -72,6 +71,7 @@ public class ToolArrayAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		View result = null;
+		Log.d("caleb " + TAG,"getting child view " + toolArrayList.get(groupPosition).getToolType());
 		switch (toolArrayList.get(groupPosition).getToolType()){
 			case Tool.PAINT_BRUSH:
 				PaintBrush paintBrush = (PaintBrush) toolArrayList.get(groupPosition);

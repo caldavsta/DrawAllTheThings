@@ -9,53 +9,80 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
-import com.onagainapps.sketchallthethings.SketchAllTheThings;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.x;
-import static android.R.attr.y;
-
 /**
  * Created by Caleb on 9/24/2016.
+ * 
+ * BrushStroke is a Command. It is the primary tool currently.
  */
 public class BrushStroke extends Command {
 	
-	private List<Point> pointList;
-	private List<Long> timeList;
-	private Path path;
-	private int brushColor;
-	private int brushSize;
+	/**
+	 * The Point list that makes up the stroke
+	 */
+	protected List<Point> pointList;
+	
+	/**
+	 * The Paint which stores the properties of the 
+	 */
+	protected Paint paint;
+	/**
+	 * The Path.
+	 */
+	protected Path path;
 	
 	
-	private int tool;
-	
+	/**
+	 * Instantiates a new Brush stroke.
+	 *
+	 * @param firstPoint the first point
+	 */
 	public BrushStroke(Point firstPoint) {
-		pointList = new ArrayList<Point>();
-		timeList = new ArrayList<Long>();
+		pointList = new ArrayList<>();
 		path = new Path();
 		path.moveTo(firstPoint.x, firstPoint.y);
-		addPointToLine(firstPoint);
-		
-
-		
+		appendPointToLine(firstPoint);
 		paint = new Paint();
-		setupPaint();
+		
+		// configure the paint to have rounded edges.
+		// todo allow user to modify these parameters in PainBrushDrawer
+		CornerPathEffect cornerPathEffect =
+				new CornerPathEffect(100);
+		paint = new Paint();
+		paint.setPathEffect(cornerPathEffect);
+		paint.setDither(true);                    // set the dither to true
+		paint.setStyle(Paint.Style.STROKE);       // set to STOKE
+		paint.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
+		paint.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
+		paint.setAntiAlias(true);
+		
 	}
 	
-	public void addPointToLine(Point point) {
+	/**
+	 * append the next point to the line
+	 *
+	 * @param point the point to append
+	 */
+	public void appendPointToLine(Point point) {
 		pointList.add(point);
-		timeList.add(System.currentTimeMillis());
 		path.lineTo(point.x, point.y);
 	}
 	
+	/**
+	 * The actual drawing takes place here.
+	 * @param canvas the Canvas that originated in DrawingView
+	 */
 	public void draw(Canvas canvas) {
-		paint.setColor(getBrushColor());
-		paint.setStrokeWidth(getBrushSize());
+		canvas.drawColor(Color.TRANSPARENT);
 		canvas.drawPath(getPath(), paint);
 	}
 	
+	/**
+	 * Gets the actual bounds of the layers. Only accounts for pixels that are actually drawn.
+	 * @return
+	 */
 	@Override
 	public Rect getBounds() {
 		RectF rect = new RectF();
@@ -70,60 +97,17 @@ public class BrushStroke extends Command {
 		return result;
 	}
 	
-	private void setupPaint() {
-		//setup paint that draws the commands
-		CornerPathEffect cornerPathEffect =
-				new CornerPathEffect(100);
-		paint = new Paint();
-		paint.setPathEffect(cornerPathEffect);
-		paint.setDither(true);                    // set the dither to true
-		paint.setStyle(Paint.Style.STROKE);       // set to STOKE
-		paint.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
-		paint.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
-		paint.setAntiAlias(true);
-	}
-	
 	public String toString() {
 		return "BrushStroke with " + pointList.size() + " points.";
 	}
 	
-	public List<Point> getPointList() {
-		return pointList;
-	}
-	
-	public int getBrushColor() {
-		return brushColor;
-	}
-	
-	public void setBrushColor(int brushColor) {
-		this.brushColor = brushColor;
-	}
-	
-	public int getBrushSize() {
-		return brushSize;
-	}
-	
-	public void setBrushSize(int brushSize) {
-		this.brushSize = brushSize;
-	}
-	
-	public int getTool() {
-		return tool;
-	}
-	
-	public void setTool(int tool) {
-		this.tool = tool;
-	}
-	
+	/**
+	 * Gets the path that makes up the BrushStroke
+	 *
+	 * @return the path
+	 */
 	public Path getPath() {
-		//Path result = new Path();
-		//path.offset(getOffsetX(), getOffsetY(), result);
 		return path;
 	}
-	
-	private static double distanceBetween(Point a, Point b) {
-		double distance = Math.hypot(a.x - b.x, a.y - b.y);
-		
-		return distance;
-	}
+
 }

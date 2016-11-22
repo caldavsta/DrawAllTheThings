@@ -18,6 +18,7 @@ public class SketchAllTheThings {
 private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	
 	private static final int DEFAULT_COLOR = Color.BLACK;
+	public static final String STORAGE_DIRECTORY_ALBUM = "Sketch All The Things";
 	
 	private PaintBrush paintBrush;
 	private Eraser eraser;
@@ -95,6 +96,10 @@ private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	}
 	
 	public PaintBrush getPaintBrush () { return paintBrush; }
+	
+	public Eraser getEraser() {
+		return eraser;
+	}
 	
 	public ArrayList<Tool> getTools() {
 		return tools;

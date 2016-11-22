@@ -16,7 +16,7 @@ import com.onagainapps.sketchallthethings.R;
 
 public class PaintBrush extends Tool {
 	private static final int DEFAULT_BRUSH_SIZE = 12;
-	public static final int MAX_BRUSH_SIZE = 100;
+	public static final int MAX_BRUSH_SIZE = 250;
 	public static final int MIN_BRUSH_SIZE = 3;
 	public static int icon = R.drawable.ic_tool_eraser;
 	

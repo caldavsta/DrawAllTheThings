@@ -7,11 +7,16 @@ import android.view.View;
 
 import com.onagainapps.sketchallthethings.DrawingView;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
-import com.onagainapps.sketchallthethings.Tools.PaintBrush;
 import com.onagainapps.sketchallthethings.Tools.Tool;
 
 /**
  * Created by Caleb on 9/24/2016.
+ * 
+ * THIS CLASS IS UNDER CONSTRUCTION
+ * todo add multi-touch support so that user can translate and scale the image
+ * DrawingInputManager interprets the user's touch inputs. It decides whether the user is drawing something, scaling the canvas, translating the canvas, etc.
+ * Once it determines the user's intentions, it creates the Command. It then continues to alter the command as necessary.
+ * Once DrawingInputManager determines that the user has completed their Command (for example, lifting up all fingers), it notifies the Layer being edited that the Command is complete.
  */
 public class DrawingInputManager implements View.OnTouchListener {
 	private static final String TAG = "DrawingInputMgr";
@@ -35,6 +40,11 @@ public class DrawingInputManager implements View.OnTouchListener {
 	private float canvasTranslateY = 0.0f;
 	private float canvasScaleFactor = 1.0f;
 	
+	/**
+	 * Instantiates a new Drawing input manager.
+	 *
+	 * @param drawingView the drawing view
+	 */
 	public DrawingInputManager(DrawingView drawingView) {
 		this.drawingView = drawingView;
 	}
@@ -47,6 +57,9 @@ public class DrawingInputManager implements View.OnTouchListener {
 		boolean result = false;
 		switch (SketchAllTheThings.getInstance().getCurrentTool().getToolType()){
 			case Tool.PAINT_BRUSH:
+				result = handleDrawingToolInput(v, event);
+				break;
+			case Tool.ERASER:
 				result = handleDrawingToolInput(v, event);
 				break;
 			case Tool.ZOOM_AND_PAN:
@@ -124,7 +137,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 			case MotionEvent.ACTION_UP:
 				singlePointerId = -1;
 				if (drawingView.getCurrentDrawing().getCurrentCommand() != null) {
-					drawingView.getCurrentDrawing().finishAddingCommand();
+					drawingView.getCurrentDrawing().getLayerBeingEdited().finishAddingCommand();
 				}
 				
 				break;
@@ -139,24 +152,45 @@ public class DrawingInputManager implements View.OnTouchListener {
 					if (existingCommand == null) {
 						//create command
 						Point point = new Point((int)translatedX, (int)translatedY);
-						Command newCommand = new BrushStroke(point);
+						Command newCommand = null;
 						
-						//create brushstroke
-						BrushStroke commandAsBrushStroke = (BrushStroke) newCommand;
-						commandAsBrushStroke.setBrushColor(SketchAllTheThings.getInstance().getColor());
-						commandAsBrushStroke.setBrushSize(SketchAllTheThings.getInstance().getPaintBrush().getBrushSize());
-						commandAsBrushStroke.addPointToLine(point);
+						Log.d("caleb " + TAG,"Command Begun. Current Tool: " + SketchAllTheThings.getInstance().getCurrentTool().getToolType());
+						
+						switch (SketchAllTheThings.getInstance().getCurrentTool().getToolType()){
+							case Tool.PAINT_BRUSH:
+								Log.d("caleb " + TAG,"Brush Stroke Created");
+								newCommand = new PaintBrushStroke(point);
+								
+								//create brushstroke
+								PaintBrushStroke commandAsBrushStroke = (PaintBrushStroke) newCommand;
+								
+								commandAsBrushStroke.appendPointToLine(point);
+								
+								break;
+							
+							case Tool.ERASER:
+								Log.d("caleb " + TAG,"Eraser Stroke Created");
+								newCommand = new EraserStroke(point);
+								
+
+								EraserStroke commandAsEraserStroke = (EraserStroke) newCommand;
+								
+								commandAsEraserStroke.appendPointToLine(point);
+								break;
+						}
 						
 						//inform drawingview that command has started
-						drawingView.getCurrentDrawing().startAddingCommand(newCommand);
+						drawingView.getCurrentDrawing().getLayerBeingEdited().startAddingCommand(newCommand);
 						existingCommand = newCommand;
+						
+
 					}
-					if (existingCommand.getClass() == BrushStroke.class) {
+					if (existingCommand.getClass() == PaintBrushStroke.class || existingCommand.getClass() == EraserStroke.class) {
 						BrushStroke brushStroke = (BrushStroke) existingCommand;
 						//Log.d("caleb " + TAG, event.getX() + " x " + event.getY());
 						
 						Point point = new Point((int)translatedX, (int)translatedY);
-						brushStroke.addPointToLine(point);
+						brushStroke.appendPointToLine(point);
 						
 						v.postInvalidate();
 					}
@@ -164,14 +198,13 @@ public class DrawingInputManager implements View.OnTouchListener {
 				break;
 			
 			case MotionEvent.ACTION_CANCEL:
-				drawingView.getCurrentDrawing().cancelAddingCommand();
+				drawingView.getCurrentDrawing().getLayerBeingEdited().cancelAddingCommand();
 				
 				break;
 		}
 		return true;
 	}
 	
-	// Given an action int, returns a string description
 	public static String actionToString(int action) {
 		switch (action) {
 			
@@ -198,6 +231,12 @@ public class DrawingInputManager implements View.OnTouchListener {
 		return result;
 	}
 	
+	/**
+	 * Adjust the translation of the DrawingView's canvas.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void adjustTranslate(float x, float y){
 		this.canvasTranslateX -= x;
 		this.canvasTranslateY -= y;
@@ -205,6 +244,11 @@ public class DrawingInputManager implements View.OnTouchListener {
 		drawingView.setTranslate(canvasTranslateX, canvasTranslateY);
 	}
 	
+	/**
+	 * Adjust the scale of the DrawingView's canvas.
+	 *
+	 * @param newDistance the new distance between two fingers
+	 */
 	public void adjustScale(float newDistance){
 		canvasScaleFactor += newDistance;
 		

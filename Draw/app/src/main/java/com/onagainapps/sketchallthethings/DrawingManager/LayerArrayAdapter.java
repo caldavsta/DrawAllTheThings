@@ -1,7 +1,9 @@
 package com.onagainapps.sketchallthethings.DrawingManager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +113,29 @@ public class LayerArrayAdapter extends ArrayAdapter<Layer> {
 			public void onClick(View v) {
 				//Log.d("caleb " + TAG,"Layer: " + viewHolder.layerView.getWidth() + " x " + viewHolder.layerView.getHeight() + " Layer: " + layer.getWidth() + " x " + layer.getHeight());
 				//TODO make a rename dialog when layer is clicked
+			}
+		});
+		
+		viewHolder.layerView.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				new AlertDialog.Builder(getContext())
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setTitle("Delete Layer?")
+						.setMessage("Are you sure you want to delete this layer?")
+						.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								drawing.deleteLayer(viewHolder.layer);
+								drawingView.postInvalidate();
+								notifyDataSetChanged();
+							}
+							
+						})
+						.setNegativeButton("No", null)
+						.show();
+				return false;
 			}
 		});
 		viewHolder.visibilityButton.setText((viewHolder.layer.isVisible()? "✓":"X"));

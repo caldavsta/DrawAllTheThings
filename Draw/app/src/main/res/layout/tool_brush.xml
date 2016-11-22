@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -11,19 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp">
-        <TextView
-            android:text="Size"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="right"
+        
+        <com.onagainapps.advancedseekbar.AdvancedSeekBar
+            class="com.onagainapps.advancedseekbar.AdvancedSeekBar"
+            app:originaltext="Size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tool_paintbrush_sizeTextView"/>
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tool_paintbrush_sizeSeekBar"/>
+            android:id="@+id/tool_brush_advancedseekbar"/>
     </TableRow>
 
 

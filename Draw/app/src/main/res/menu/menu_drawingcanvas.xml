@@ -17,12 +17,20 @@
         android:title="Redo"
         app:showAsAction="always"/>
 
+
+
     <item
-        android:id="@+id/action_new_drawing"
-        android:icon="@drawable/ic_new_drawing"
+        android:id="@+id/action_color_picker"
+        android:icon="@drawable/ic_color_palette"
         android:orderInCategory="3"
         android:title="New Drawing"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_new_drawing"
+        android:icon="@drawable/ic_new_drawing"
+        android:title="New Drawing"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_share_image"
@@ -33,6 +41,7 @@
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
+          android:visible="false"
           app:showAsAction="never"/>
 
 </menu>

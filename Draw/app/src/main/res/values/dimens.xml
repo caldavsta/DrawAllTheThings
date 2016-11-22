@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="drawingActivity_drawerWidth">250dp</dimen>
+    <dimen name="toolDrawer_sliderHeight">40dp</dimen>
 </resources>
