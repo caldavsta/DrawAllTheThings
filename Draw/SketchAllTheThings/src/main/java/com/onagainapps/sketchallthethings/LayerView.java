@@ -10,22 +10,13 @@ import android.view.View;
 
 import com.onagainapps.sketchallthethings.DrawingManager.Layer;
 
-/**
- * Created by Caleb on 9/30/2016.
- * 
- * LayerView is the View which shows just the Commands that are in one layer. It is shown in the right drawer.
- */
+
 public class LayerView extends View {
 	private Layer layer;
 	private Paint paint;
 	private Matrix matrix;
 	
-	/**
-	 * Instantiates a new Layer view.
-	 *
-	 * @param context the context
-	 * @param attrs   the attrs
-	 */
+	
 	public LayerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.paint = new Paint();
@@ -58,11 +49,7 @@ public class LayerView extends View {
 		canvas.drawText(text, 10, 25, paint);
 	}
 	
-	/**
-	 * Sets layer.
-	 *
-	 * @param layer the layer
-	 */
+	
 	public void setLayer(Layer layer) {
 		this.layer = layer;
 	}

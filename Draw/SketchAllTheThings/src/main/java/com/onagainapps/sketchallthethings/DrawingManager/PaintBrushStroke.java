@@ -6,9 +6,7 @@ import android.graphics.Point;
 
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
 
-/**
- * Created by Caleb on 10/7/2016.
- */
+
 
 public class PaintBrushStroke extends BrushStroke {
 	public PaintBrushStroke(Point firstPoint) {

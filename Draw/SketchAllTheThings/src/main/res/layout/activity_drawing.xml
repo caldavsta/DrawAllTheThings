@@ -6,7 +6,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
 
     <RelativeLayout
         android:layout_width="@dimen/drawingActivity_drawerWidth"
@@ -14,19 +13,13 @@
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:layout_height="match_parent">
-
-
-
-
+        
         <view
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             class="com.larswerkman.holocolorpicker.ColorPicker"
             android:id="@+id/color_picker"/>
-
-
-
 
         <view
             android:layout_width="match_parent"
@@ -99,7 +92,6 @@
     android:layout_alignTop="@+id/drawing_canvas"
     android:layout_alignRight="@+id/drawing_canvas"
     android:layout_alignEnd="@+id/drawing_canvas">
- 
 
         <com.onagainapps.sketchallthethings.DrawingView
             android:layout_width="match_parent"
@@ -107,22 +99,21 @@
             android:background="@color/colorDrawingCanvasBackground"
             android:id="@+id/drawing_canvas"/>
 
-
     </LinearLayout>
+    
     <LinearLayout
         android:layout_width="@dimen/drawingActivity_drawerWidth"
         android:layout_gravity="end"
         android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:layout_height="match_parent">
-    
-    
+        
     <Button
         android:text="New Layer"
         android:layout_width="@dimen/drawingActivity_drawerWidth"
         android:layout_height="wrap_content"
         android:id="@+id/layer_newlayer"/>
-    <android.support.v7.widget.ListViewCompat
+    <ListView
         android:stackFromBottom="false"
         android:layout_width="@dimen/drawingActivity_drawerWidth"
         android:layout_height="match_parent"
@@ -130,8 +121,6 @@
         android:layout_gravity="end"
         android:divider="@android:color/black"
         android:dividerHeight="10dp"
-        android:background="@color/colorPrimary">
-        
-    </android.support.v7.widget.ListViewCompat>
+        android:background="@color/colorPrimary" />
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

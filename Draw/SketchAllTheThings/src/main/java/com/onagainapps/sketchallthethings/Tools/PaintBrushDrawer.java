@@ -13,9 +13,7 @@ import com.onagainapps.advancedseekbar.AdvancedSeekBar;
 import com.onagainapps.sketchallthethings.R;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
 
-/**
- * Created by Caleb on 10/2/2016.
- */
+
 
 public class PaintBrushDrawer{
 	PaintBrush paintBrush;

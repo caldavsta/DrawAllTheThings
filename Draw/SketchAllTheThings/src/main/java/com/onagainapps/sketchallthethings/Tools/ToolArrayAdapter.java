@@ -21,9 +21,7 @@ import com.onagainapps.sketchallthethings.SketchAllTheThings;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by Caleb on 10/2/2016.
- */
+
 
 public class ToolArrayAdapter extends BaseExpandableListAdapter {
 	private static final String TAG = ToolArrayAdapter.class.getSimpleName();

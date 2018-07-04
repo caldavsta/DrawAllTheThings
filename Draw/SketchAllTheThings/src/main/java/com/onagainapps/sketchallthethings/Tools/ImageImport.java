@@ -2,11 +2,7 @@ package com.onagainapps.sketchallthethings.Tools;
 
 import com.onagainapps.sketchallthethings.R;
 
-/**
- * Created by Caleb on 10/7/2016.
- * 
- * Not implemented.
- */
+
 public class ImageImport extends Tool {// IMAGE IMPORTER IS NOT IMPLEMENTED
 	
 	private ImageImportDrawer imageImportDrawer;

@@ -11,9 +11,7 @@ import com.onagainapps.sketchallthethings.R;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
 
 
-/**
- * Created by Caleb on 10/4/2016.
- */
+
 
 public class EraserDrawer {
 	private static final String TAG = EraserDrawer.class.getSimpleName();

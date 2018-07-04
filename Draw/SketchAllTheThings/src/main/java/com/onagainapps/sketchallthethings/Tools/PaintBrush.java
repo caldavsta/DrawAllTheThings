@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.onagainapps.sketchallthethings.R;
 
-/**
- * Created by Caleb on 10/2/2016.
- */
+
 
 public class PaintBrush extends Tool {
 	private static final int DEFAULT_BRUSH_SIZE = 12;

@@ -12,33 +12,19 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Caleb on 9/24/2016.
- * 
- * BrushStroke is a Command. It is the primary tool currently.
- */
+
 public class BrushStroke extends Command {
 	
-	/**
-	 * The Point list that makes up the stroke
-	 */
+	
 	protected List<Point> pointList;
 	
-	/**
-	 * The Paint which stores the properties of the 
-	 */
+	
 	protected Paint paint;
-	/**
-	 * The Path.
-	 */
+	
 	protected Path path;
 	
 	
-	/**
-	 * Instantiates a new Brush stroke.
-	 *
-	 * @param firstPoint the first point
-	 */
+	
 	public BrushStroke(Point firstPoint) {
 		pointList = new ArrayList<>();
 		path = new Path();
@@ -60,29 +46,19 @@ public class BrushStroke extends Command {
 		
 	}
 	
-	/**
-	 * append the next point to the line
-	 *
-	 * @param point the point to append
-	 */
+	
 	public void appendPointToLine(Point point) {
 		pointList.add(point);
 		path.lineTo(point.x, point.y);
 	}
 	
-	/**
-	 * The actual drawing takes place here.
-	 * @param canvas the Canvas that originated in DrawingView
-	 */
+	
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.TRANSPARENT);
 		canvas.drawPath(getPath(), paint);
 	}
 	
-	/**
-	 * Gets the actual bounds of the layers. Only accounts for pixels that are actually drawn.
-	 * @return
-	 */
+	
 	@Override
 	public Rect getBounds() {
 		RectF rect = new RectF();
@@ -101,11 +77,7 @@ public class BrushStroke extends Command {
 		return "BrushStroke with " + pointList.size() + " points.";
 	}
 	
-	/**
-	 * Gets the path that makes up the BrushStroke
-	 *
-	 * @return the path
-	 */
+	
 	public Path getPath() {
 		return path;
 	}

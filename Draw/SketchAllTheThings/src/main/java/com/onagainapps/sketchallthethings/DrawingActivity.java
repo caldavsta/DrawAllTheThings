@@ -39,41 +39,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
-/*
-SketchAllTheThings is a drawing app for Android. It contains several
-	 functions which can be extrapolated upon. For instance, layered drawings,
-	 Views which display individual layers or the entire Drawing.
-    Copyright (C) 2016  Caleb Stamper
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- * DrawingActivity is the main activity in the app. It is a DrawerLayout with a left and right drawer.
- * Left Drawer: Has a color-picker (https://github.com/LarsWerkman/HoloColorPicker), and lists the available tools, which get inflated into an expandable listview. Each listview item contains a set of properties for the tool (size is the only one so-far)
- * Right Drawer: Lists all layers in the current Drawing. Drawing is performed on only one layer at a time. Layers are drawn in DrawingView starting at the bottom of the layer list and ending at the top. The layers can be reorganized, deleted, and hidden independently.
- * The AppBar is where tools are chosen. The Undo and Redo buttons are here. The top bar also displays the currently selected color.
- * The DrawingView is the main part of this activity. It is where the current drawing is shown and is the view that a user interacts with.
- */
 public class DrawingActivity extends AppCompatActivity implements DrawerLayout.DrawerListener {
 	private static final String TAG = DrawingActivity.class.getSimpleName();
 	private static final int REQUEST_WRITE_STORAGE = 112;
 	
-	/**
-	 * The Drawing view.
-	 * This is where the drawing appears.
-	 */
+	
 	public DrawingView drawingView;
 	private ListView layerListView;
 	private DrawerLayout drawerLayout;
@@ -81,14 +54,10 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 	private ColorPicker colorPicker;
 	
 	
-	/**
-	 * The Layer array adapter. For separating the drawing's layers into separate views. (the right Drawer)
-	 */
+	
 	LayerArrayAdapter layerArrayAdapter;
 	
-	/**
-	 * The Tool array adapter. For separating all tools and their properties into views. (left Drawer, under color-picker)
-	 */
+	
 	ToolArrayAdapter toolArrayAdapter;
 	
 	
@@ -163,13 +132,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		super.onResume();
 	}
 	
-	/**
-	 * Used in newer android version for runtime permissions verification. 
-	 * @deprecated Only a temporary feature for testing.
-	 * @param requestCode the permission to test for
-	 * @param permissions 
-	 * @param grantResults
-	 */
+	
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -207,11 +170,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		}
 	}
 	
-	/**
-	 * Is external storage writable boolean.
-	 *
-	 * @return the boolean
-	 */
+	
 	public boolean isExternalStorageWritable() {
 		String state = Environment.getExternalStorageState();
 		if (Environment.MEDIA_MOUNTED.equals(state)) {
@@ -220,11 +179,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		return false;
 	}
 	
-	/**
-	 * Gets file for saving.
-	 *
-	 * @return the file for saving
-	 */
+	
 	public File getFileForSaving() {
 		// Get the directory for the app's private pictures directory.
 		Calendar rightNow = Calendar.getInstance();
@@ -246,11 +201,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		return mediaFile;
 	}
 	
-	/**
-	 * Saves the current drawing to Storage.
-	 * @deprecated only a temporary feature for testing
-	 * @param image the Bitmap of the current drawing
-	 */
+	
 	private void storeImage(Bitmap image) {
 		File pictureFile = getFileForSaving();
 		if (pictureFile == null) {
@@ -333,10 +284,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 	}
 	
 	
-	/**
-	 * Inflates each tool (and it's parameters) into the tool list in the left drawer. For example: Inflate the Brush tool and it's 'size' parameter, which shows as a seekbar.
-	 * @param appBar the menu which tools get inflated to
-	 */
+	
 	private void addToolsToAppBar(Menu appBar){
 		int count = appBar.size();
 		for (final Tool thisTool : SketchAllTheThings.getInstance().getTools()){
@@ -359,9 +307,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		}
 	}
 	
-	/**
-	 * Begins a new drawing which is sized to fit the DrawingView's dimensions
-	 */
+	
 	private void startNewDrawing(){
 		checkIfWritePermissions();
 		Drawing drawing = Drawing.getNewDefaultDrawing(drawingView);
@@ -370,20 +316,14 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		layerArrayAdapter.setDrawing(drawing);
 	}
 	
-	/**
-	 * sets up the layer adapter, which is attached to the list in the right drawer
-	 */
+	
 	public void setupLayerAdapter(){
 		layerArrayAdapter = drawingView.getCurrentDrawing().getLayerArrayAdapterForLayerList(this, drawingView);
 		layerListView.setAdapter(layerArrayAdapter);
 		layerArrayAdapter.setDrawing(drawingView.getCurrentDrawing());
 	}
 	
-	/**
-	 * Brings up the share dialog and sends the current drawing's Bitmap as image/png
-	 * @param bitmap the Bitmap of the current Drawing
-	 * @param fileName the name of the file which will be saved
-	 */
+	
 	private void shareBitmap(Bitmap bitmap, String fileName) {
 		try {
 			File file = new File(this.getCacheDir(), fileName + ".png");
@@ -426,10 +366,7 @@ public class DrawingActivity extends AppCompatActivity implements DrawerLayout.D
 		colorPicker.postInvalidate(); //refresh the colorPicker
 	}
 	
-	/**
-	 * Only necessary for implementing DrawerListener. Does nothing.
-	 * @param newState
-	 */
+	
 	@Override
 	public void onDrawerStateChanged(int newState) {
 		

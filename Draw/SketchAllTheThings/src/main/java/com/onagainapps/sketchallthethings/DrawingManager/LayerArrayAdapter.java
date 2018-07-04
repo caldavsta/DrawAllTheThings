@@ -16,9 +16,7 @@ import com.onagainapps.sketchallthethings.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by Caleb on 9/29/2016.
- */
+
 
 public class LayerArrayAdapter extends ArrayAdapter<Layer> {
 	private static final String TAG = LayerArrayAdapter.class.getSimpleName();

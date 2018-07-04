@@ -9,15 +9,7 @@ import com.onagainapps.sketchallthethings.DrawingView;
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
 import com.onagainapps.sketchallthethings.Tools.Tool;
 
-/**
- * Created by Caleb on 9/24/2016.
- * 
- * THIS CLASS IS UNDER CONSTRUCTION
- * todo add multi-touch support so that user can translate and scale the image
- * DrawingInputManager interprets the user's touch inputs. It decides whether the user is drawing something, scaling the canvas, translating the canvas, etc.
- * Once it determines the user's intentions, it creates the Command. It then continues to alter the command as necessary.
- * Once DrawingInputManager determines that the user has completed their Command (for example, lifting up all fingers), it notifies the Layer being edited that the Command is complete.
- */
+
 public class DrawingInputManager implements View.OnTouchListener {
 	private static final String TAG = "DrawingInputMgr";
 	private int singlePointerId = -1;
@@ -40,11 +32,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 	private float canvasTranslateY = 0.0f;
 	private float canvasScaleFactor = 1.0f;
 	
-	/**
-	 * Instantiates a new Drawing input manager.
-	 *
-	 * @param drawingView the drawing view
-	 */
+	
 	public DrawingInputManager(DrawingView drawingView) {
 		this.drawingView = drawingView;
 	}
@@ -231,12 +219,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 		return result;
 	}
 	
-	/**
-	 * Adjust the translation of the DrawingView's canvas.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 */
+	
 	public void adjustTranslate(float x, float y){
 		this.canvasTranslateX -= x;
 		this.canvasTranslateY -= y;
@@ -244,11 +227,7 @@ public class DrawingInputManager implements View.OnTouchListener {
 		drawingView.setTranslate(canvasTranslateX, canvasTranslateY);
 	}
 	
-	/**
-	 * Adjust the scale of the DrawingView's canvas.
-	 *
-	 * @param newDistance the new distance between two fingers
-	 */
+	
 	public void adjustScale(float newDistance){
 		canvasScaleFactor += newDistance;
 		

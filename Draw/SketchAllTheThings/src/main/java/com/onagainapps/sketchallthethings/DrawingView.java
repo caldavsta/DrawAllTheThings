@@ -18,25 +18,15 @@ import com.onagainapps.sketchallthethings.DrawingManager.Drawing;
 import com.onagainapps.sketchallthethings.DrawingManager.DrawingInputManager;
 import com.onagainapps.sketchallthethings.DrawingManager.Layer;
 
-/**
- * DrawingView is a custom view. It handles all operations related to displaying the drawing onto the screen. It also forwards touch input to Drawing.
- * When the drawing is opened, DrawingView attaches its own touchListener to the drawing. All input is forwarded to Drawing.
- * Created by Caleb on 9/24/2016.
- */
+
 public class DrawingView extends View {
 	private static final String TAG = DrawingView.class.getSimpleName();
 	
-	/**
-	 * FitType is how the DrawingView's canvas fits into the screen space when resized.
-	 */
+	
 	public static class FitType {
-		/**
-		 * FREE_SIZE is when a user moves the drawing into a custom position
-		 */
+		
 		public static final int FREE_SIZE = 0;
-		/**
-		 * FIT_HEIGHT is for scaling the image so that the image's height matches the available space on-screen
-		 */
+		
 		public static final int FIT_HEIGHT = 1;
 	}
 	
@@ -54,12 +44,7 @@ public class DrawingView extends View {
 	private int width = 0; 
 	private int height = 0;
 
-	/**
-	 * Instantiates a new Drawing view.
-	 *
-	 * @param context the context
-	 * @param attrs   the attrs
-	 */
+	
 	public DrawingView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
@@ -68,10 +53,7 @@ public class DrawingView extends View {
 		Log.d("caleb " + TAG, "DrawingView created by " + context.getClass().toString());
 	}
 	
-	/**
-	 * The main drawing method. Only gets called when new actions (brush strokes etc.) are being performed.
-	 * @param canvas the canvas passed from the Android system
-	 */
+	
 	public void onDraw(Canvas canvas) {
 		
 		//sets the Drawing's dimensions if they need to be changed.
@@ -113,10 +95,7 @@ public class DrawingView extends View {
 		}
 	}
 	
-	/**
-	 * Draws a few instructions to the screen to inform the user of the app's functions.
-	 * @param canvas the canvas passed from the Android system
-	 */
+	
 	private void drawPlaceholder(Canvas canvas) {
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
@@ -147,20 +126,12 @@ public class DrawingView extends View {
 
 	}
 	
-	/**
-	 * Gets current drawing.
-	 *
-	 * @return the current drawing
-	 */
+	
 	public Drawing getCurrentDrawing() {
 		return currentDrawing;
 	}
 	
-	/**
-	 * Sets current drawing and attaches DrawingView's touchListener to the drawing.
-	 *
-	 * @param currentDrawing the current drawing
-	 */
+	
 	public void setCurrentDrawing(Drawing currentDrawing) {
 		this.currentDrawing = currentDrawing;
 		drawingInputManager = new DrawingInputManager(this);
@@ -168,58 +139,33 @@ public class DrawingView extends View {
 		invalidate();
 	}
 	
-	/**
-	 * Set translate.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 */
+	
 	public void setTranslate(float x, float y){
 		this.translateX = x;
 		this.translateY = y;
 	}
 	
-	/**
-	 * Set scale. Not Implemented.
-	 *
-	 * @param scaleFactor the scale factor
-	 */
+	
 	public void setScale(float scaleFactor){
 		this.scaleFactor = scaleFactor;
 	}
 	
-	/**
-	 * Gets canvas matrix.
-	 *
-	 * @return the canvas matrix
-	 */
+	
 	public Matrix getCanvasMatrix() {
 		return canvasMatrix;
 	}
 	
-	/**
-	 * Gets canvas width.
-	 *
-	 * @return the canvas width
-	 */
+	
 	public int getCanvasWidth() {
 		return width;
 	}
 	
-	/**
-	 * Gets canvas height.
-	 *
-	 * @return the canvas height
-	 */
+	
 	public int getCanvasHeight() {
 		return height;
 	}
 	
-	/**
-	 * Sets fit type. Not Implemented.
-	 *
-	 * @param fitType the fit type
-	 */
+	
 	public void setFitType(int fitType) {
 		this.fitType = fitType;
 		postInvalidate();

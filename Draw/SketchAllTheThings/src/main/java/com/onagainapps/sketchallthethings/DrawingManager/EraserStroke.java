@@ -11,12 +11,7 @@ import android.graphics.PorterDuffXfermode;
 
 import com.onagainapps.sketchallthethings.SketchAllTheThings;
 
-/**
- * Created by Caleb on 10/7/2016.
- * 
- * EraserStroke is a BrushStroke. It just happens to be a BrushStroke that draws transparency.
- * todo fix the visual appearance of EraserStroke as it's drawn. It currently shows up black.
- */
+
 
 public class EraserStroke extends BrushStroke {
 	

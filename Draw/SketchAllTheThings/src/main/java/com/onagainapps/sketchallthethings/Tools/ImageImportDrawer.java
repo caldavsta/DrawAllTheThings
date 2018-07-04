@@ -9,11 +9,7 @@ import android.widget.SeekBar;
 
 import com.onagainapps.sketchallthethings.R;
 
-/**
- * Created by Caleb on 10/7/2016.
- * 
- * Not implemented
- */
+
 public class ImageImportDrawer {
 	ImageImport imageImport;
 	

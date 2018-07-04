@@ -11,9 +11,7 @@ import com.onagainapps.sketchallthethings.Tools.Tool;
 
 import java.util.ArrayList;
 
-/**
- * Created by Caleb on 9/24/2016.
- */
+
 public class SketchAllTheThings {
 private static final String TAG = SketchAllTheThings.class.getSimpleName();
 	

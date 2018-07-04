@@ -8,9 +8,7 @@ import com.onagainapps.sketchallthethings.DrawingManager.Command;
 
 import java.util.Dictionary;
 
-/**
- * Created by Caleb on 10/2/2016.
- */
+
 
 public abstract class Tool{
 	
